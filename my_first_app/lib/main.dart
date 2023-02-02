@@ -42,6 +42,13 @@ class MyAppState extends ChangeNotifier {
     }
     notifyListeners();
   }
+
+  void removeFavorite(WordPair current) {
+    if (favorites.contains(current)) {
+      favorites.remove(current);
+    }
+    notifyListeners();
+  }
 }
 
 class MyHomePage extends StatefulWidget {
@@ -190,7 +197,14 @@ class FavoritesPage extends StatelessWidget {
         ),
         for (var fav in wordPairs)
           ListTile(
-            leading: Icon(Icons.favorite),
+            leading: IconButton(
+                onPressed: () {
+                  appState.removeFavorite(fav);
+                },
+                icon: Icon(
+                  Icons.delete_outline,
+                  color: Theme.of(context).colorScheme.primary,
+                )),
             title: Text(fav.asLowerCase),
           ),
       ],
